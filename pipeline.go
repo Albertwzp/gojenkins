@@ -59,8 +59,20 @@ type PipelineNode struct {
 	ParentNodes    []int64
 }
 
+//Choices
+type Plgdef struct {
+	DefaultVal string
+	Choices    []string
+}
+type Plg struct {
+	Type       string
+	Name       string
+	Definition Plgdef
+}
+
 type PipelineInputAction struct {
 	ID         string
+	Inputs     []Plg
 	Message    string
 	ProceedURL string
 	AbortURL   string
