@@ -538,10 +538,9 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context) (bool, error) {
 	actions, _ := pr.GetPendingInputActions(ctx)
 	data := url.Values{}
 	data.Set("inputId", actions[0].ID)
-	//data.Set("inputId", actions[0].Inputs[0].Definition.DefaultVal)
-	params := make(map[string]string)
-	params["name"] = actions[0].Inputs[0].Name
-	params["value"] = actions[0].Inputs[0].Definition.DefaultVal
+	params := make(map[string]map[string]string)
+	params["parameter"]["name"] = actions[0].Inputs[0].Name
+	params["parameter"]["value"] = actions[0].Inputs[0].Definition.DefaultVal
 	data.Set("json", makeJson(params))
 	fmt.Println(data)
 
