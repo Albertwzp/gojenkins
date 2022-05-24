@@ -538,10 +538,16 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context) (bool, error) {
 	actions, _ := pr.GetPendingInputActions(ctx)
 	data := url.Values{}
 	data.Set("inputId", actions[0].ID)
-	params := make(map[string]map[string]string)
-	params["parameter"]["name"] = actions[0].Inputs[0].Name
-	params["parameter"]["value"] = actions[0].Inputs[0].Definition.DefaultVal
-	data.Set("json", makeJson(params))
+	
+	xparams :=  make(map[string]interface{})
+	var parameter [1]interface{}
+	params :=  make(map[string]string)
+	params["name"] = actions[0].Inputs[0].Name
+	params["value"] = actions[0].Inputs[0].Definition.DefaultVal
+	parameter[0] = params
+	xparams["parameter"] = parameter
+
+	data.Set("json", makeJson(xparameter))
 	fmt.Println(data)
 
 	href := pr.Base + "/wfapi/inputSubmit"
