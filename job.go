@@ -534,16 +534,20 @@ func (j *Job) History(ctx context.Context) ([]*History, error) {
 	return parseBuildHistory(strings.NewReader(s)), nil
 }
 
-func (pr *PipelineRun) ProceedInput(ctx context.Context) (bool, error) {
+func (pr *PipelineRun) ProceedInput(ctx context.Context, version string) (bool, error) {
 	actions, _ := pr.GetPendingInputActions(ctx)
 	data := url.Values{}
 	data.Set("inputId", actions[0].ID)
-	
+
 	xparams :=  make(map[string]interface{})
 	var parameter [1]interface{}
 	params :=  make(map[string]string)
 	params["name"] = actions[0].Inputs[0].Name
-	params["value"] = actions[0].Inputs[0].Definition.DefaultVal
+	if version == "" {
+		params["value"] = actions[0].Inputs[0].Definition.DefaultVal
+	} else {
+		params["value"] = version
+	}
 	parameter[0] = params
 	xparams["parameter"] = parameter
 
