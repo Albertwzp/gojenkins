@@ -551,7 +551,13 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context, version string) (bool, 
 	if version == "latest" {
 		params["value"] = actions[0].Inputs[0].Definition.DefaultVal
 	} else {
-		params["value"] = version
+		for k, v := range(actions[0].Inputs[0].Definition.Choices) {
+			if string.Containers(v, version) {
+				params["value"] = v
+			} else {
+				return false, errors.New("Nonexist commitID")
+			}
+		}
 	}
 	parameter[0] = params
 	xparams["parameter"] = parameter
