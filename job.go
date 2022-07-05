@@ -555,10 +555,13 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context, version string) (bool, 
 			if strings.Contains(v, version) {
 				params["value"] = v
 				break
-			} else {
-				return false, errors.New("Nonexist commitID")
 			}
 		}
+	}
+	if vs, ok := params["value"]; ok {
+		fmt.Printf(vs)
+	} else {
+		return false, errors.New("Nonexist commitID")
 	}
 	parameter[0] = params
 	xparams["parameter"] = parameter
