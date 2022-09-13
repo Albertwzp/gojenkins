@@ -558,9 +558,7 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context, version string) (bool, 
 			}
 		}
 	}
-	if vs, ok := params["value"]; ok {
-		fmt.Printf(vs)
-	} else {
+	if vs, ok := params["value"]; !ok {
 		return false, errors.New("Nonexist commitID")
 	}
 	parameter[0] = params
