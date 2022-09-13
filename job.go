@@ -559,15 +559,16 @@ func (pr *PipelineRun) ProceedInput(ctx context.Context, version string) (bool, 
 		}
 	}
 	if vs, ok := params["value"]; ok {
-		fmt.Printf(vs)
+		fmt.Printf("%s: %s\n", params["name"], vs)
 	} else {
+		fmt.Printf("%s: Nonexist commitID\n", params["name"])
 		return false, errors.New("Nonexist commitID")
 	}
 	parameter[0] = params
 	xparams["parameter"] = parameter
 
 	data.Set("json", makeJson(xparams))
-	fmt.Println(data)
+	//fmt.Println(data)
 
 	href := pr.Base + "/wfapi/inputSubmit"
 
